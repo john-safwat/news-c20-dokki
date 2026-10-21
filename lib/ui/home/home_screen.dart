@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:news_c20_dokki/core/base/base_state.dart';
 import 'package:news_c20_dokki/core/providers/app_config_provider.dart';
 import 'package:news_c20_dokki/core/utils/context_extention.dart';
 import 'package:news_c20_dokki/core/utils/numbers_extension.dart';
 import 'package:news_c20_dokki/core/utils/widget_extension.dart';
 import 'package:news_c20_dokki/models/news_category.dart';
+import 'package:news_c20_dokki/ui/home/home_navigator.dart';
+import 'package:news_c20_dokki/ui/home/home_view_model.dart';
 import 'package:news_c20_dokki/ui/home/tabs/home_tab.dart';
-import 'package:news_c20_dokki/ui/home/tabs/news_tab.dart';
+import 'package:news_c20_dokki/ui/home/tabs/news/news_tab.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,30 +20,30 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  NewsCategory? selectedCategory;
+class _HomeScreenState extends BaseState<HomeScreen , HomeViewModel> implements HomeNavigator {
+
 
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AppConfigProvider>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          selectedCategory == null ? "Home" : selectedCategory!.categoryName,
+    return ChangeNotifierProvider(
+      create: (context) => viewModel,
+      child: Consumer<HomeViewModel>(
+        builder: (_ , _, _) => Scaffold(
+          appBar: AppBar(
+            title: Text(
+              viewModel.selectedCategory == null ? "Home" : viewModel.selectedCategory!.categoryName,
+            ),
+            centerTitle: true,
+            actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
+          ),
+          drawer: _drawer(provider),
+          body: viewModel.selectedCategory == null
+              ? HomeTab(onClick: viewModel.changeCategory)
+              : NewsTab(category: viewModel.selectedCategory!),
         ),
-        centerTitle: true,
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
       ),
-      drawer: _drawer(provider),
-      body: selectedCategory == null
-          ? HomeTab(onClick: changeCategory)
-          : NewsTab(category: selectedCategory!),
     );
-  }
-
-  void changeCategory(NewsCategory category) {
-    selectedCategory = category;
-    setState(() {});
   }
 
   Widget _drawer(AppConfigProvider provider) {
@@ -62,9 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           TextButton(
             onPressed: () {
-              selectedCategory = null;
-              setState(() {});
-              Navigator.pop(context);
+              viewModel.goToHome();
             },
             child: Row(
               children: [
@@ -123,5 +124,15 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void pop() {
+    Navigator.pop(context);
+  }
+
+  @override
+  HomeViewModel createViewModel() {
+    return HomeViewModel();
   }
 }
