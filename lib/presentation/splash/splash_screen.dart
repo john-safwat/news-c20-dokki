@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_c20_dokki/core/providers/app_config_provider.dart';
-import 'package:news_c20_dokki/ui/home/home_screen.dart';
+import 'package:news_c20_dokki/presentation/home/home_screen.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget{

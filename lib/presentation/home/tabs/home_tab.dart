@@ -3,7 +3,7 @@ import 'package:news_c20_dokki/core/providers/app_config_provider.dart';
 import 'package:news_c20_dokki/core/utils/context_extention.dart';
 import 'package:news_c20_dokki/core/utils/numbers_extension.dart';
 import 'package:news_c20_dokki/core/utils/widget_extension.dart';
-import 'package:news_c20_dokki/models/news_category.dart';
+import 'package:news_c20_dokki/domain/entity/news_category.dart';
 import 'package:provider/provider.dart';
 
 class HomeTab extends StatelessWidget {

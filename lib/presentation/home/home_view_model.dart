@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:news_c20_dokki/core/base/base_view_model.dart';
-import 'package:news_c20_dokki/models/news_category.dart';
-import 'package:news_c20_dokki/ui/home/home_navigator.dart';
+import 'package:news_c20_dokki/domain/entity/news_category.dart';
+import 'package:news_c20_dokki/presentation/home/home_navigator.dart';
 
-class HomeViewModel extends BaseViewModel<HomeNavigator>{
-
+class HomeViewModel extends BaseViewModel<HomeNavigator> {
   NewsCategory? selectedCategory;
 
   void changeCategory(NewsCategory category) {
@@ -12,7 +10,7 @@ class HomeViewModel extends BaseViewModel<HomeNavigator>{
     notifyListeners();
   }
 
-  void goToHome(){
+  void goToHome() {
     selectedCategory = null;
     notifyListeners();
     navigator!.pop();

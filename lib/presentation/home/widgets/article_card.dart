@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:news_c20_dokki/core/providers/app_config_provider.dart';
 import 'package:news_c20_dokki/core/utils/context_extention.dart';
 import 'package:news_c20_dokki/core/utils/widget_extension.dart';
-import 'package:news_c20_dokki/models/articles_response.dart';
+import 'package:news_c20_dokki/domain/entity/article_entity.dart';
 import 'package:provider/provider.dart';
 
 class ArticleCard extends StatelessWidget {
-  final Article article;
+  final ArticleEntity article;
 
   const ArticleCard({required this.article, super.key});
 
@@ -25,7 +25,7 @@ class ArticleCard extends StatelessWidget {
         spacing: 16,
         children: [
           CachedNetworkImage(
-            imageUrl: article.urlToImage ?? "",
+            imageUrl: article.image,
             placeholder: (_, _) => Image.asset(
               "assets/images/news_logo_${provider.isDarkMode ? "dark" : "light"}.png",
             ),
@@ -37,16 +37,16 @@ class ArticleCard extends StatelessWidget {
             fit: BoxFit.cover,
             imageBuilder: (_, imageProvider) => Image(image: imageProvider , fit: .cover,).clip(16)
           ),
-          Text(article.title ?? "", style: context.text.labelLarge),
+          Text(article.title, style: context.text.labelLarge),
           Row(
             children: [
               Expanded(
                 child: Text(
-                  article.author ?? "",
+                  article.author,
                   style: context.text.labelSmall,
                 ),
               ),
-              Text(article.publishedAt ?? "", style: context.text.labelSmall),
+              Text(article.publishedAt, style: context.text.labelSmall),
             ],
           ),
         ],

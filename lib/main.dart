@@ -4,8 +4,8 @@ import 'package:news_c20_dokki/core/l10n/app_localizations.dart';
 import 'package:news_c20_dokki/core/providers/app_config_provider.dart';
 import 'package:news_c20_dokki/core/theme/app_colors.dart';
 import 'package:news_c20_dokki/core/theme/app_theme.dart';
-import 'package:news_c20_dokki/ui/home/home_screen.dart';
-import 'package:news_c20_dokki/ui/splash/splash_screen.dart';
+import 'package:news_c20_dokki/presentation/home/home_screen.dart';
+import 'package:news_c20_dokki/presentation/splash/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {

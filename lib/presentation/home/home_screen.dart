@@ -4,11 +4,10 @@ import 'package:news_c20_dokki/core/providers/app_config_provider.dart';
 import 'package:news_c20_dokki/core/utils/context_extention.dart';
 import 'package:news_c20_dokki/core/utils/numbers_extension.dart';
 import 'package:news_c20_dokki/core/utils/widget_extension.dart';
-import 'package:news_c20_dokki/models/news_category.dart';
-import 'package:news_c20_dokki/ui/home/home_navigator.dart';
-import 'package:news_c20_dokki/ui/home/home_view_model.dart';
-import 'package:news_c20_dokki/ui/home/tabs/home_tab.dart';
-import 'package:news_c20_dokki/ui/home/tabs/news/news_tab.dart';
+import 'package:news_c20_dokki/presentation/home/home_navigator.dart';
+import 'package:news_c20_dokki/presentation/home/home_view_model.dart';
+import 'package:news_c20_dokki/presentation/home/tabs/home_tab.dart';
+import 'package:news_c20_dokki/presentation/home/tabs/news/news_tab.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
