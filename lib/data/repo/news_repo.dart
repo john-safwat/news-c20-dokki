@@ -1,6 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:news_c20_dokki/data/data_source/contract/news_api_client.dart';
 import 'package:news_c20_dokki/data/data_source/contract/news_local_datasource.dart';
-import 'package:news_c20_dokki/data/data_source/contract/news_remote_datasource.dart';
 import 'package:news_c20_dokki/data/mapper/news_mapper.dart';
 import 'package:news_c20_dokki/domain/entity/article_entity.dart';
 import 'package:news_c20_dokki/domain/entity/source_entity.dart';
@@ -10,7 +10,7 @@ class NewsRepoImpl implements NewsRepo {
   Connectivity connectivity;
 
   NewsLocalDatasource localDatasource;
-  NewsRemoteDatasource remoteDatasource;
+  NewsApiClient remoteDatasource;
   NewsMapper mapper;
 
   NewsRepoImpl(
