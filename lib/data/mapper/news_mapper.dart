@@ -1,8 +1,10 @@
+import 'package:injectable/injectable.dart';
 import 'package:news_c20_dokki/data/models/articles_response.dart' hide Source;
 import 'package:news_c20_dokki/data/models/sources_response.dart';
 import 'package:news_c20_dokki/domain/entity/article_entity.dart';
 import 'package:news_c20_dokki/domain/entity/source_entity.dart';
 
+@injectable
 class NewsMapper {
   List<SourceEntity> mapSources(SourcesResponse response) {
     List<SourceEntity> sources = [];

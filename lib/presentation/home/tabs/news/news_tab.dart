@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_c20_dokki/core/base/base_state.dart';
+import 'package:news_c20_dokki/core/di/di.dart';
 import 'package:news_c20_dokki/core/utils/context_extention.dart';
 import 'package:news_c20_dokki/core/utils/numbers_extension.dart';
 import 'package:news_c20_dokki/core/utils/widget_extension.dart';
@@ -21,6 +22,7 @@ class _NewsTabState extends BaseState<NewsTab, NewsViewModel> {
   @override
   void initState() {
     super.initState();
+    viewModel.category = widget.category;
     viewModel.getSources();
   }
 
@@ -86,6 +88,6 @@ class _NewsTabState extends BaseState<NewsTab, NewsViewModel> {
 
   @override
   NewsViewModel createViewModel() {
-    return NewsViewModel(widget.category);
+    return get();
   }
 }

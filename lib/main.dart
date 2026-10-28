@@ -1,6 +1,7 @@
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:news_c20_dokki/core/di/di.dart';
 import 'package:news_c20_dokki/core/l10n/app_localizations.dart';
 import 'package:news_c20_dokki/core/providers/app_config_provider.dart';
 import 'package:news_c20_dokki/core/theme/app_colors.dart';
@@ -10,6 +11,7 @@ import 'package:news_c20_dokki/presentation/splash/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  configureDependencies();
   ChuckerFlutter.showOnRelease = true;
   ChuckerFlutter.showNotification = true;
   runApp(

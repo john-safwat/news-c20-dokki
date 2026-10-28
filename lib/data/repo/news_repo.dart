@@ -1,11 +1,15 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:injectable/injectable.dart';
+import 'package:news_c20_dokki/core/utils/provide_connectivity.dart';
 import 'package:news_c20_dokki/data/data_source/contract/news_api_client.dart';
 import 'package:news_c20_dokki/data/data_source/contract/news_local_datasource.dart';
+import 'package:news_c20_dokki/data/data_source/impl/news_local_datasource_impl.dart';
 import 'package:news_c20_dokki/data/mapper/news_mapper.dart';
 import 'package:news_c20_dokki/domain/entity/article_entity.dart';
 import 'package:news_c20_dokki/domain/entity/source_entity.dart';
 import 'package:news_c20_dokki/domain/repo/news_repo.dart';
 
+@Injectable(as: NewsRepo)
 class NewsRepoImpl implements NewsRepo {
   Connectivity connectivity;
 

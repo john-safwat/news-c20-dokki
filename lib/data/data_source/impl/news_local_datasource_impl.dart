@@ -1,7 +1,10 @@
+import 'package:injectable/injectable.dart';
 import 'package:news_c20_dokki/data/data_source/contract/news_local_datasource.dart';
 import 'package:news_c20_dokki/data/models/articles_response.dart';
 import 'package:news_c20_dokki/data/models/sources_response.dart';
 
+
+@Injectable(as: NewsLocalDatasource)
 class NewsLocalDatasourceImpl implements NewsLocalDatasource{
   @override
   Future<List<Article>> getArticlesFromLocal(String sourceId) async{
