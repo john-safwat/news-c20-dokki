@@ -46,6 +46,8 @@ dependencies:
   retrofit: ^4.10.0
   get_it:
   injectable:
+  bloc: ^9.2.1
+  flutter_bloc:
 
 
 dev_dependencies:

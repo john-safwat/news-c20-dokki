@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:news_c20_dokki/core/base/base_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_c20_dokki/core/di/di.dart';
 import 'package:news_c20_dokki/core/providers/app_config_provider.dart';
 import 'package:news_c20_dokki/core/utils/context_extention.dart';
 import 'package:news_c20_dokki/core/utils/numbers_extension.dart';
 import 'package:news_c20_dokki/core/utils/widget_extension.dart';
-import 'package:news_c20_dokki/presentation/home/home_navigator.dart';
-import 'package:news_c20_dokki/presentation/home/home_view_model.dart';
+import 'package:news_c20_dokki/presentation/home/home_actions.dart';
+import 'package:news_c20_dokki/presentation/home/home_logic.dart';
+import 'package:news_c20_dokki/presentation/home/home_state.dart';
 import 'package:news_c20_dokki/presentation/home/tabs/home_tab.dart';
 import 'package:news_c20_dokki/presentation/home/tabs/news/news_tab.dart';
 import 'package:provider/provider.dart';
@@ -19,28 +21,49 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends BaseState<HomeScreen , HomeViewModel> implements HomeNavigator {
+class _HomeScreenState extends State<HomeScreen> {
+  HomeCubit homeCubit = get<HomeCubit>();
 
+  @override
+  void initState() {
+    super.initState();
+    homeCubit.navigationStream.listen((action) {
+      switch (action) {
+        case CloseDrawer():
+          {
+            Navigator.pop(context);
+          }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AppConfigProvider>(context);
-    return ChangeNotifierProvider(
-      create: (context) => viewModel,
-      child: Consumer<HomeViewModel>(
-        builder: (_ , _, _) => Scaffold(
-          appBar: AppBar(
-            title: Text(
-              viewModel.selectedCategory == null ? "Home" : viewModel.selectedCategory!.categoryName,
+    return BlocProvider.value(
+      value: homeCubit,
+      child: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                state.selectedCategory == null
+                    ? "Home"
+                    : state.selectedCategory!.categoryName,
+              ),
+              centerTitle: true,
+              actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
             ),
-            centerTitle: true,
-            actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
-          ),
-          drawer: _drawer(provider),
-          body: viewModel.selectedCategory == null
-              ? HomeTab(onClick: viewModel.changeCategory)
-              : NewsTab(category: viewModel.selectedCategory!),
-        ),
+            drawer: _drawer(provider),
+            body: state.selectedCategory == null
+                ? HomeTab(
+                    onClick: (category) {
+                      homeCubit.doAction(ChangeSelectedCategory(category));
+                    },
+                  )
+                : NewsTab(category: state.selectedCategory!),
+          );
+        },
       ),
     );
   }
@@ -64,7 +87,7 @@ class _HomeScreenState extends BaseState<HomeScreen , HomeViewModel> implements 
           ),
           TextButton(
             onPressed: () {
-              viewModel.goToHome();
+              homeCubit.doAction(GoToHome());
             },
             child: Row(
               children: [
@@ -80,7 +103,7 @@ class _HomeScreenState extends BaseState<HomeScreen , HomeViewModel> implements 
             margin: EdgeInsets.symmetric(horizontal: 16),
             padding: EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              border: Border.all(width: 1 , color: context.colors.primary),
+              border: Border.all(width: 1, color: context.colors.primary),
               borderRadius: BorderRadius.circular(16),
             ),
             child: DropdownButton<ThemeMode>(
@@ -99,18 +122,19 @@ class _HomeScreenState extends BaseState<HomeScreen , HomeViewModel> implements 
           ),
           16.verticalSpace,
           Divider(),
-          Text("Language", style: context.text.titleLarge).symmetricPadding(8, 16),
+          Text(
+            "Language",
+            style: context.text.titleLarge,
+          ).symmetricPadding(8, 16),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16),
             padding: EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              border: Border.all(width: 1 , color: context.colors.primary),
+              border: Border.all(width: 1, color: context.colors.primary),
               borderRadius: BorderRadius.circular(16),
             ),
             child: DropdownButton<String>(
-              items: [
-                DropdownMenuItem(value: "en", child: Text("English")),
-              ],
+              items: [DropdownMenuItem(value: "en", child: Text("English"))],
               isExpanded: true,
               borderRadius: BorderRadius.circular(16),
               underline: SizedBox(),
@@ -123,15 +147,5 @@ class _HomeScreenState extends BaseState<HomeScreen , HomeViewModel> implements 
         ],
       ),
     );
-  }
-
-  @override
-  void pop() {
-    Navigator.pop(context);
-  }
-
-  @override
-  HomeViewModel createViewModel() {
-    return HomeViewModel();
   }
 }
